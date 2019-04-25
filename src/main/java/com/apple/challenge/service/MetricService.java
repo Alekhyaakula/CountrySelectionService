@@ -23,12 +23,8 @@ public class MetricService {
         if(selection == null){
             return;
         }
-        Integer statusCount = statusMetric.get(selection);
-        if (statusCount == null) {
-            statusMetric.put(selection, 1);
-        } else {
-            statusMetric.put(selection, statusCount + 1);
-        }
+        Integer statusCount = statusMetric.getOrDefault(selection, 0) + 1;
+        statusMetric.put(selection, statusCount);
     }
 
     /**

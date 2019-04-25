@@ -53,21 +53,19 @@ public class CountryService {
             if (StringUtils.isEmpty(continentSelected) && StringUtils.isEmpty(countrySelected)) {
                 //Return continentList;
                 return mapper.writeValueAsString(continentList);
-
             }
             else if (!StringUtils.isEmpty(continentSelected)) {
                 //If Continent is selected
-                continentFiltered = continentList.stream().filter(continent -> continent.getContinent().toLowerCase().equals(continentSelected.toLowerCase())).findAny();
+                continentFiltered = continentList.stream().filter(continent -> continent.getContinentName().equalsIgnoreCase(continentSelected)).findAny();
 
                 if(continentFiltered.isPresent()){
                     response = mapper.writeValueAsString(continentFiltered.get().getCountries());
                 }
-
             } else {
                 //If Country is selected
-                continentFiltered = continentList.stream().filter(continent -> Arrays.asList(continent.getCountries()).stream().anyMatch(s -> s.getName().equals(countrySelected))).findAny();
+                continentFiltered = continentList.stream().filter(continent -> Arrays.asList(continent.getCountries()).stream().anyMatch(country -> country.getName().equalsIgnoreCase(countrySelected))).findAny();
                 if(continentFiltered.isPresent()){
-                    Optional<Country> country = Arrays.asList(continentFiltered.get().getCountries()).stream().filter(country1 -> country1.getName().toLowerCase().equals(countrySelected.toLowerCase())).findAny();
+                    Optional<Country> country = Arrays.asList(continentFiltered.get().getCountries()).stream().filter(country1 -> country1.getName().equalsIgnoreCase(countrySelected)).findAny();
                     //Return Flag
                     if(country.isPresent()) {
                         response = mapper.writeValueAsString(country.get().getFlag());

@@ -30,8 +30,7 @@ public class CountryController {
      * @return All data, if continent is provided then pull list of countries and flag. If countries is provided then RETURN the flag
      */
     @RequestMapping(value="/flagPicker", method = RequestMethod.GET)
-    public @ResponseBody
-    String getCountries(String continent, String country){
+    public @ResponseBody String getCountries(String continent, String country){
         logger.info("User Selection is continent={}, country={}", continent, country);
         return countryService.getCountries(continent, country);
     }

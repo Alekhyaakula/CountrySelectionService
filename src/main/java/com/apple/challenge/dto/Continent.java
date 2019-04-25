@@ -1,16 +1,19 @@
 package com.apple.challenge.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Continent {
 
-    private String continent;
+    @JsonProperty("continent")
+    private String continentName;
     private Country[] countries;
 
-    public String getContinent() {
-        return continent;
+    public String getContinentName() {
+        return continentName;
     }
 
-    public void setContinent(String continent) {
-        this.continent = continent;
+    public void setContinentName(String continentName) {
+        this.continentName = continentName;
     }
 
     public Country[] getCountries() {
