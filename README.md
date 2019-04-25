@@ -9,7 +9,7 @@ Endpoints -
 
 Implemented a metrics service that can provide - number of times continent/country flag has been viewed.
 Endpoint -
-/countryPicker/metrics
+/flagPicker/metrics
 
 Performance and Audit logging enhancement to service - Implemented Filter to log responses, performance metrics
 
