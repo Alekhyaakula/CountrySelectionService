@@ -29,14 +29,14 @@ public class CountryController {
      * @param country country that the user selected
      * @return All data, if continent is provided then pull list of countries and flag. If countries is provided then RETURN the flag
      */
-    @RequestMapping(value="/country", method = RequestMethod.GET)
+    @RequestMapping(value="/flagPicker", method = RequestMethod.GET)
     public @ResponseBody
     String getCountries(String continent, String country){
         logger.info("User Selection is continent={}, country={}", continent, country);
         return countryService.getCountries(continent, country);
     }
 
-    @RequestMapping(value = "/country/metrics", method = RequestMethod.GET)
+    @RequestMapping(value = "/flagPicker/metrics", method = RequestMethod.GET)
     @ResponseBody
     public Map getStatusMetric() {
         return metricService.getStatusMetric();
