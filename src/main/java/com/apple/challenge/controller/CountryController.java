@@ -33,7 +33,7 @@ public class CountryController {
     public @ResponseBody
     String getCountries(String continent, String country){
         logger.info("User Selection is continent={}, country={}", continent, country);
-        return countryService.getCountries(continent, country);
+        return countryService.getCountriesViaMap(continent, country);
     }
 
     @RequestMapping(value = "/country/metrics", method = RequestMethod.GET)

@@ -14,9 +14,9 @@ import org.springframework.util.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public class CountryService {
@@ -24,6 +24,9 @@ public class CountryService {
     private static final Logger logger = LoggerFactory.getLogger(CountryService.class);
 
     private static List<Continent> continentList;
+
+    private Map<String, Country[]> mapOfContinentToCountry = new HashMap<>();
+    private Map<String,String> mapOfCountryToFlag = new HashMap<>();
 
     /**
      * When the service is initialized load the country list from json file
@@ -34,16 +37,23 @@ public class CountryService {
             String staticCountryList = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             ObjectMapper mapper = new ObjectMapper();
             continentList = mapper.readValue(staticCountryList,new TypeReference<List<Continent>>() { });
+                for(Continent continent : continentList){
+                    mapOfContinentToCountry.put(continent.getContinent(),continent.getCountries());
+                    for(Country country : continent.getCountries()){
+                        mapOfCountryToFlag.put(country.getName(),country.getFlag());
+                    }
+            }
+
         } catch (IOException e) {
             logger.error("Failed to process Static Country Json file", e);
         }
     }
 
-    /**
+/*    *//**
      * @param continentSelected continent that the user selected
      * @param countrySelected country that the user selected
      * @return All data, if continent is provided then pull list of countries and flag. If countries is provided then RETURN the flag
-     */
+     *//*
     public String getCountries(String continentSelected, String countrySelected) {
         ObjectMapper mapper = new ObjectMapper();
         String response = null;
@@ -73,6 +83,39 @@ public class CountryService {
         }
         catch (JsonProcessingException e){
             logger.error("Error Parsing",e);
+        }
+        return response;
+    }*/
+
+    /**
+     * @param continentSelected continent that the user selected
+     * @param countrySelected   country that the user selected
+     * @return All data, if continent is provided then pull list of countries and flag. If countries is provided then RETURN the flag
+     */
+    public String getCountriesViaMap(String continentSelected, String countrySelected){
+        ObjectMapper mapper = new ObjectMapper();
+        String response = null;
+
+        try {
+            if (StringUtils.isEmpty(continentSelected) && StringUtils.isEmpty(countrySelected)) {
+                //Return continentList;
+                return mapper.writeValueAsString(continentList);
+
+            } else if (!StringUtils.isEmpty(continentSelected)) {
+                //If Continent is selected
+                if(mapOfContinentToCountry.containsKey(continentSelected)) {
+                    //Return countries
+                    response = mapper.writeValueAsString(mapOfContinentToCountry.get(continentSelected));
+                }
+
+            } else {
+                //If Country is selected
+                if(mapOfCountryToFlag.containsKey(countrySelected)) {
+                    response = mapper.writeValueAsString(mapOfCountryToFlag.get(countrySelected));
+                }
+            }
+        } catch (JsonProcessingException e) {
+            logger.error("Error Parsing", e);
         }
         return response;
     }

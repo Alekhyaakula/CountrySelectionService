@@ -17,7 +17,7 @@ public class CountryServiceTest {
 
     @Test
     public void testAllContinents() {
-        String response = countryService.getCountries(null, null);
+        String response = countryService.getCountriesViaMap(null, null);
         Assert.assertNotNull(response);
 
         //All continent data
@@ -30,7 +30,7 @@ public class CountryServiceTest {
 
     @Test
     public void testContinentRequest() {
-        String response = countryService.getCountries("Africa", null);
+        String response = countryService.getCountriesViaMap("Africa", null);
         Assert.assertNotNull(response);
 
         //Only Africa should be returned
@@ -43,7 +43,7 @@ public class CountryServiceTest {
 
     @Test
     public void testCountryRequest() {
-        String response = countryService.getCountries(null, "Egypt");
+        String response = countryService.getCountriesViaMap(null, "Egypt");
         Assert.assertNotNull(response);
 
         //Only Egypt flag
